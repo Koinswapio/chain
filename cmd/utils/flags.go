@@ -2135,8 +2135,10 @@ func MakeChainDatabase(ctx *cli.Context, stack *node.Node, readonly bool) ethdb.
 }
 
 func IsTestnetPreset(ctx *cli.Context) bool {
-	if ctx.GlobalBool(RopstenFlag.Name) || ctx.GlobalBool(SepoliaFlag.Name) || ctx.GlobalBool(RinkebyFlag.Name) || ctx.GlobalBool(GoerliFlag.Name) || ctx.GlobalBool(KilnFlag.Name) || ctx.GlobalBool(DeveloperFlag.Name) {
-		return true
+	for _, flag := range TestnetFlags {
+		if ctx.GlobalBool(flag.GetName()) {
+			return true
+		}
 	}
 	return false
 }
